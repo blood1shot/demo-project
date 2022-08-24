@@ -1,5 +1,5 @@
 <template lang="pug"></template>
 
-<script lang="ts" setup></script>
+<script lang="ts"></script>
 
 <style scoped lang="scss"></style>

@@ -1,9 +1,18 @@
 <template lang="pug">
 transition(name="fade", mode="out-in")
-  router-view
+.container
+  .bg-custom
+    SideBar/
+    router-view
 </template>
 
-<script lang="ts" setup></script>
+<script lang="ts">
+import SideBar from "@/components/SideBar.vue";
+
+export default {
+  components: { SideBar },
+};
+</script>
 
 <style lang="scss" scoped>
 .fade-enter-active,
