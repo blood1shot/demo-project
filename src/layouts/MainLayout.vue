@@ -3,15 +3,13 @@ transition(name="fade", mode="out-in")
 .container
   .bg-custom
     SideBar/
+    NavBar/
     router-view
 </template>
 
-<script lang="ts">
-import SideBar from "@/components/SideBar.vue";
-
-export default {
-  components: { SideBar },
-};
+<script lang="ts" setup>
+import SideBar from "@/components/TheSideBar.vue";
+import NavBar from "@/components/TheNavBar.vue";
 </script>
 
 <style lang="scss" scoped>
