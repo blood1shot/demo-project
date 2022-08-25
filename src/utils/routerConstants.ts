@@ -1,9 +1,9 @@
 const routerConstants = {
-  loginPage: "/login",
-  registrationPage: "/registration",
-  homePage: "/",
-  comingSoonPage: "/coming-soon",
-  settingsPage: "/settings",
+  loginPage: "Login",
+  registrationPage: "Registration",
+  homePage: "Main",
+  comingSoonPage: "Coming-soon",
+  settingsPage: "Settings",
 };
 
 export default routerConstants;

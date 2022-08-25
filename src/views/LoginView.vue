@@ -28,44 +28,51 @@
       ) {{ error.$message }}
 
     .login-button
-      button.btn.btn-danger.w-100(@click="loginUser()") Log in
+      button.btn.btn-danger.w-100(@click="loginUser") Log in
 
     .etc-login-form
       p new user?
-        router-link(to="/registration") create new account
+        router-link(:to="{ name: routerConstants.registrationPage }") create new account
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
+import routerConstants from "@/utils/routerConstants";
+import { useAuthStore } from "@/store/auth";
 import { reactive } from "vue";
 import { useRouter } from "vue-router";
 import useVuelidate from "@vuelidate/core";
 import { required, email } from "@vuelidate/validators";
 
-export default {
-  setup() {
-    const router = useRouter();
-    const state = reactive({
-      email: "",
-      password: "",
-    });
-    const rules = {
-      email: { required, email },
-      password: { required },
-    };
+const AuthStore = useAuthStore();
+const router = useRouter();
+const loginCredentials = reactive({
+  email: "",
+  password: "",
+});
+const rules = {
+  email: { required, email },
+  password: { required },
+};
 
-    const v$ = useVuelidate(rules, state);
+const v$ = useVuelidate(rules, loginCredentials);
 
-    const loginUser = () => {
-      v$.value.$validate();
-      if (!v$.value.$error) {
-        router.push("/");
-        state.email = "";
-        state.password = "";
-      }
-    };
-
-    return { loginUser, v$ };
-  },
+const loginUser = () => {
+  console.log(loginCredentials.email);
+  v$.value.$validate();
+  if (!v$.value.$error) {
+    try {
+      AuthStore.loginUser(
+        loginCredentials.email,
+        loginCredentials.password
+      ).then(() => {
+        router.push({ name: routerConstants.homePage });
+        loginCredentials.email = "";
+        loginCredentials.password = "";
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  }
 };
 </script>
 

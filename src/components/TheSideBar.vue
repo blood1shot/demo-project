@@ -9,14 +9,27 @@
       ul
         li(v-for="link in section.links", v-bind:key="link.url")
           i(:class="iconClass(link.icon)")
-          router-link(tag="li", :to="link.url", active-class="active") {{ link.title }}
+          router-link(
+            tag="li",
+            :to="{ name: link.url }",
+            active-class="active",
+            @click="ifLogout(link.url)"
+          ) {{ link.title }}
 </template>
 
 <script lang="ts" setup>
 import routerConstants from "@/utils/routerConstants";
+import { useAuthStore } from "@/store/auth";
 
+const AuthStore = useAuthStore();
 const iconClass = (iconName: string) => {
-  return "fa-solid " + "fa-" + iconName;
+  return `fa-solid fa-${iconName}`;
+};
+
+const ifLogout = (url: string) => {
+  if (url === "Login") {
+    AuthStore.logOut();
+  }
 };
 
 const sections = [

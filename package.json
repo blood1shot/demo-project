@@ -16,19 +16,20 @@
     "bootstrap": "5.2.0",
     "core-js": "3.8.3",
     "dayjs": "1.11.4",
+    "firebase": "9.9.3",
     "pinia": "2.0.17",
     "pinia-plugin-persistedstate": "1.6.3",
     "pinia-shared-state": "0.2.8",
     "register-service-worker": "1.7.2",
     "vue": "3.2.13",
     "vue-router": "4.0.3",
-    "vue3-carousel": "^0.1.46"
+    "vue3-carousel": "0.1.46"
   },
   "devDependencies": {
     "@prettier/plugin-pug": "1.20.1",
     "@types/bootstrap": "5.2.2",
     "@types/jest": "27.0.1",
-    "@types/vue-router": "^2.0.0",
+    "@types/vue-router": "2.0.0",
     "@typescript-eslint/eslint-plugin": "5.4.0",
     "@typescript-eslint/parser": "5.4.0",
     "@vue/cli-plugin-babel": "~5.0.0",

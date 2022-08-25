@@ -24,6 +24,18 @@ const routes: Array<RouteRecordRaw> = [
       ),
   },
   {
+    path: "/coming-soon",
+    name: "Coming-soon",
+    meta: { layout: "main" },
+    component: () => import("../views/Coming-soon.vue"),
+  },
+  {
+    path: "/settings",
+    name: "Settings",
+    meta: { layout: "main" },
+    component: () => import("../views/TheSettings.vue"),
+  },
+  {
     path: "/:pathMatch(.*)",
     name: "404",
     meta: { layout: "empty" },

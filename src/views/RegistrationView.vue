@@ -53,45 +53,54 @@
       button.btn.btn-danger.w-100(@click="createUser()") Create account
     .etc-login-form
       p already have an account?
-        router-link(to="/login") log in
+        router-link(:to="{ name: routerConstants.loginPage }") log in
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
+import routerConstants from "@/utils/routerConstants";
+import { payloadInterface } from "@/interfaces/user.interfaces";
+import { useAuthStore } from "@/store/auth";
+import { useRouter } from "vue-router";
 import { reactive } from "vue";
 import useVuelidate from "@vuelidate/core";
 import { required, email } from "@vuelidate/validators";
 
-export default {
-  setup() {
-    const state = reactive({
-      firstname: "",
-      lastname: "",
-      email: "",
-      password: "",
-    });
-    const rules = {
-      firstname: { required },
-      lastname: { required },
-      email: { required, email },
-      password: { required },
-    };
-
-    const v$ = useVuelidate(rules, state);
-
-    function createUser() {
-      v$.value.$validate();
-      if (!v$.value.$error) {
-        console.log("Good job");
-        state.email = "";
-        state.password = "";
-        state.firstname = "";
-        state.lastname = "";
-      }
-    }
-
-    return { createUser, v$ };
-  },
+const router = useRouter();
+const AuthStore = useAuthStore();
+const state = reactive({
+  firstname: "",
+  lastname: "",
+  email: "",
+  password: "",
+});
+const rules = {
+  firstname: { required },
+  lastname: { required },
+  email: { required, email },
+  password: { required },
 };
+
+const v$ = useVuelidate(rules, state);
+
+const formData: payloadInterface = {
+  email: state.email,
+  password: state.password,
+  surname: state.lastname,
+  name: state.firstname,
+};
+
+function createUser() {
+  v$.value.$validate();
+  if (!v$.value.$error) {
+    AuthStore.createUser(formData).then(() => {
+      router.push({ name: routerConstants.homePage });
+    });
+    state.email = "";
+    state.password = "";
+    state.firstname = "";
+    state.lastname = "";
+  }
+}
 </script>
 
 <style scoped lang="scss"></style>
