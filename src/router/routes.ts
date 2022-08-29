@@ -1,22 +1,23 @@
 import { RouteRecordRaw } from "vue-router";
+import routerConstants from "@/utils/routerConstants";
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
-    name: "Main",
+    name: routerConstants.homePage,
     meta: { layout: "main" },
     component: () => import("../views/MainView.vue"),
   },
   {
     path: "/login",
-    name: "Login",
+    name: routerConstants.loginPage,
     meta: { layout: "empty" },
     component: () =>
       import(/* webpackChunkName: "login" */ "../views/LoginView.vue"),
   },
   {
     path: "/registration",
-    name: "Registration",
+    name: routerConstants.registrationPage,
     meta: { layout: "empty" },
     component: () =>
       import(
@@ -25,19 +26,19 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: "/coming-soon",
-    name: "Coming-soon",
+    name: routerConstants.comingSoonPage,
     meta: { layout: "main" },
     component: () => import("../views/Coming-soon.vue"),
   },
   {
     path: "/settings",
-    name: "Settings",
+    name: routerConstants.settingsPage,
     meta: { layout: "main" },
     component: () => import("../views/TheSettings.vue"),
   },
   {
     path: "/:pathMatch(.*)",
-    name: "404",
+    name: routerConstants.notFoundPage,
     meta: { layout: "empty" },
     component: () => import("../views/NotFoundView.vue"),
   },

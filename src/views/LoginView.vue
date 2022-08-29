@@ -28,7 +28,7 @@
       ) {{ error.$message }}
 
     .login-button
-      button.btn.btn-danger.w-100(@click="loginUser") Log in
+      button.login-btn.btn.btn-danger.w-100(@click="loginUser") Log in
 
     .etc-login-form
       p new user?
@@ -41,39 +41,45 @@ import { useAuthStore } from "@/store/auth";
 import { reactive } from "vue";
 import { useRouter } from "vue-router";
 import useVuelidate from "@vuelidate/core";
-import { required, email } from "@vuelidate/validators";
+import { required, email, minLength } from "@vuelidate/validators";
+import { loginCredentialsInterface } from "@/interfaces/user.interfaces";
 
 const AuthStore = useAuthStore();
 const router = useRouter();
-const loginCredentials = reactive({
+const loginCredentials: loginCredentialsInterface = reactive({
   email: "",
   password: "",
 });
 const rules = {
   email: { required, email },
-  password: { required },
+  password: {
+    required,
+    minLength: minLength(6),
+  },
 };
 
 const v$ = useVuelidate(rules, loginCredentials);
 
-const loginUser = () => {
-  console.log(loginCredentials.email);
+async function loginUser() {
   v$.value.$validate();
   if (!v$.value.$error) {
+    const logButton = document.querySelector(".login-btn");
+    logButton.setAttribute("disabled", "");
     try {
-      AuthStore.loginUser(
+      await AuthStore.loginUser(
         loginCredentials.email,
         loginCredentials.password
       ).then(() => {
         router.push({ name: routerConstants.homePage });
-        loginCredentials.email = "";
-        loginCredentials.password = "";
+        logButton.removeAttribute("disabled");
       });
     } catch (e) {
-      console.log(e);
+      setTimeout(() => {
+        logButton.removeAttribute("disabled");
+      }, 1000);
     }
   }
-};
+}
 </script>
 
 <style scoped lang="scss"></style>

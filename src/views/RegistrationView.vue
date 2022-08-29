@@ -50,7 +50,7 @@
         v-for="error of v$.password.$errors"
       ) {{ error.$message }}
     .login-button
-      button.btn.btn-danger.w-100(@click="createUser()") Create account
+      button.create-btn.btn.btn-danger.w-100(@click="createUser()") Create account
     .etc-login-form
       p already have an account?
         router-link(:to="{ name: routerConstants.loginPage }") log in
@@ -63,11 +63,11 @@ import { useAuthStore } from "@/store/auth";
 import { useRouter } from "vue-router";
 import { reactive } from "vue";
 import useVuelidate from "@vuelidate/core";
-import { required, email } from "@vuelidate/validators";
+import { required, email, minLength } from "@vuelidate/validators";
 
 const router = useRouter();
 const AuthStore = useAuthStore();
-const state = reactive({
+const state: payloadInterface = reactive({
   firstname: "",
   lastname: "",
   email: "",
@@ -77,28 +77,36 @@ const rules = {
   firstname: { required },
   lastname: { required },
   email: { required, email },
-  password: { required },
+  password: {
+    required,
+    minLength: minLength(6),
+  },
 };
 
 const v$ = useVuelidate(rules, state);
 
-const formData: payloadInterface = {
-  email: state.email,
-  password: state.password,
-  surname: state.lastname,
-  name: state.firstname,
-};
+// const formData: payloadInterface = {
+//   email: state.email,
+//   password: state.password,
+//   firstname: state.firstname,
+//   lastname: state.lastname,
+// };
 
-function createUser() {
+async function createUser() {
   v$.value.$validate();
   if (!v$.value.$error) {
-    AuthStore.createUser(formData).then(() => {
-      router.push({ name: routerConstants.homePage });
-    });
-    state.email = "";
-    state.password = "";
-    state.firstname = "";
-    state.lastname = "";
+    const createButton = document.querySelector(".create-btn");
+    createButton.setAttribute("disabled", "");
+    try {
+      await AuthStore.createUser(state).then(() => {
+        router.push({ name: routerConstants.loginPage });
+        createButton.removeAttribute("disabled");
+      });
+    } catch (e) {
+      setTimeout(() => {
+        createButton.removeAttribute("disabled");
+      }, 1000);
+    }
   }
 }
 </script>

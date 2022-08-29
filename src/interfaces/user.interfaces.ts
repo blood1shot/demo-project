@@ -1,6 +1,11 @@
 export interface payloadInterface {
   email: string;
   password: string;
-  surname: string;
-  name: string;
+  lastname: string;
+  firstname: string;
 }
+
+export type loginCredentialsInterface = Omit<
+  payloadInterface,
+  "firstname" | "lastname"
+>;

@@ -11,7 +11,7 @@
       Navigation/
 </template>
 
-<script scoped lang="ts" setup>
+<script lang="ts" setup>
 import { Carousel, Navigation, Pagination, Slide } from "vue3-carousel";
 import "vue3-carousel/dist/carousel.css";
 

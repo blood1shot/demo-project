@@ -18,12 +18,12 @@ pinia.use(piniaPluginPersistedstate);
 pinia.use(PiniaSharedState({ enable: true, initialize: true, type: "native" }));
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDB7X4d1b79obqPlnrgkuzSh0hKtiQ8xYw",
-  authDomain: "vue-crm-d0d2b.firebaseapp.com",
-  projectId: "vue-crm-d0d2b",
-  storageBucket: "vue-crm-d0d2b.appspot.com",
-  messagingSenderId: "49982493637",
-  appId: "1:49982493637:web:548e992e70a5ea892db1ac",
+  apiKey: process.env.VUE_APP_FIREBASE_API_KEY,
+  authDomain: process.env.VUE_APP_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.VUE_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.VUE_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.VUE_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.VUE_APP_FIREBASE_APP_ID,
 };
 
 firebase.initializeApp(firebaseConfig);
